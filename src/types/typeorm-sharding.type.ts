@@ -57,6 +57,7 @@ export type AbstractShardingDataSourceOptions<S = {}> =
 
 export enum ShardingType {
     RANGE = 'RANGE',
+    FUNCTION = 'FUNCTION',
     // MODULAR = 'MODULAR',
 }
 
@@ -84,11 +85,18 @@ export type RangeShardingDataSourceOptions<T = DefaultShardingKeyType> = Abstrac
     shardingType: ShardingType.RANGE;
 };
 
-/*
-export type ModularShardingDataSourceOptions<T = DefaultShardingKeyType> = AbstractShardingDataSourceOptions & {
-    shardingType: ShardingType.MODULAR;
+//  _______  __    __  .__   __.   ______ .___________. __    ______   .__   __.
+// |   ____||  |  |  | |  \ |  |  /      ||           ||  |  /  __  \  |  \ |  |
+// |  |__   |  |  |  | |   \|  | |  ,----'`---|  |----`|  | |  |  |  | |   \|  |
+// |   __|  |  |  |  | |  . `  | |  |         |  |     |  | |  |  |  | |  . `  |
+// |  |     |  `--'  | |  |\   | |  `----.    |  |     |  | |  `--'  | |  |\   |
+// |__|      \______/  |__| \__|  \______|    |__|     |__|  \______/  |__| \__|
+export interface FunctionShardingRule<U = any> {
+    userData?: U;
+}
+
+export type FunctionShardingDataSourceOptions<U = any> = AbstractShardingDataSourceOptions<FunctionShardingRule<U>> & {
+    shardingType: ShardingType.FUNCTION;
 };
 
-export type ShardingDataSourceOptions = RangeShardingDataSourceOptions | ModularShardingDataSourceOptions;
- */
-export type ShardingDataSourceOptions = RangeShardingDataSourceOptions;
+export type ShardingDataSourceOptions<T = DefaultShardingKeyType> = RangeShardingDataSourceOptions<T> | FunctionShardingDataSourceOptions;

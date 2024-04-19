@@ -60,6 +60,10 @@ export class ShardingManager {
             const idx = this.options.shards.findIndex((item) => shardingFunc(entity, item.minKey, item.maxKey));
             if (idx < 0) return this.dataSources[this.dataSources.length - 1];
             return this.dataSources[idx];
+        } else if (this.options.shardingType === ShardingType.FUNCTION) {
+            const idx = this.options.shards.findIndex((item, idx) => shardingFunc(entity, idx, item));
+            if (idx < 0) return this.dataSources[this.dataSources.length - 1];
+            return this.dataSources[idx];
         } else throw new Error('ShardingManager: Unsupported sharding type');
     }
 
@@ -68,6 +72,8 @@ export class ShardingManager {
             const idx = this.options.shards.findIndex((item) => shardingFuncById(id, item.minKey, item.maxKey));
             if (idx < 0) return this.dataSources[this.dataSources.length - 1];
             return this.dataSources[idx];
+        } else if (this.options.shardingType === ShardingType.FUNCTION) {
+            throw new Error('ShardingManager: Function type cannot be used with getDataSourceById');
         } else throw new Error('ShardingManager: Unsupported sharding type');
     }
 

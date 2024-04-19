@@ -23,7 +23,7 @@ async function getDataSource(): Promise<ShardingManager> {
 }
 
 let dataSource: ShardingManager;
-describe('ShardingManager', () => {
+describe('ShardingManager-Range', () => {
     beforeEach(async () => {
         dataSource = await getDataSource();
     });
